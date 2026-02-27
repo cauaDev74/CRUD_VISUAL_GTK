@@ -11,9 +11,11 @@ void criarCampos(GtkWidget *container);
 void criarLista(GtkWidget *container);
 
 //Eventos
-void onClickAdcionarPessoa(GtkWidget *widget, gpointer data);
+void onClickAdicionarPessoa(GtkWidget *widget, gpointer data);
 void onClickEditarPessoa(GtkWidget *widget, gpointer data);
 void onClickRemoverPessoa(GtkWidget *widget, gpointer data);
+
+//Ativar a interface
 void ativar(GtkApplication *app, gpointer data);
 
 #endif

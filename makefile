@@ -2,7 +2,7 @@
 #               CONFIGURAÇÕES DO PROJETO
 # =====================================================
 
-TARGET = escritorio
+TARGET = app
 CC = gcc
 
 SRC_DIR   = src

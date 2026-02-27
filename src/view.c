@@ -1,4 +1,4 @@
-#include <gtk-3.0/gtk/gtk.h>
+#include <gtk/gtk.h>
 #include "model.h"
 #include "view.h"
 
@@ -40,48 +40,27 @@ void atualizarLista() {
 
 void criarBotoes(GtkWidget *container) {
 
-    GtkWidget *botoesBox =
-        gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    GtkWidget *botoesBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 
-    gtk_box_pack_start(GTK_BOX(container),
-                       botoesBox,
-                       FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(container), botoesBox, FALSE, FALSE, 0);
 
-    botaoAdicionarPessoa =
-        gtk_button_new_with_label("Adicionar");
+    botaoAdicionarPessoa = gtk_button_new_with_label("Adicionar");
 
-    botaoEditarPessoa =
-        gtk_button_new_with_label("Editar");
+    botaoEditarPessoa = gtk_button_new_with_label("Editar");
 
-    botaoRemoverPessoa =
-        gtk_button_new_with_label("Remover");
+    botaoRemoverPessoa = gtk_button_new_with_label("Remover");
 
-    gtk_box_pack_start(GTK_BOX(botoesBox),
-                       botaoAdicionarPessoa,
-                       TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(botoesBox), botaoAdicionarPessoa, TRUE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(botoesBox),
-                       botaoEditarPessoa,
-                       TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(botoesBox), botaoEditarPessoa, TRUE, TRUE, 0);
 
-    gtk_box_pack_start(GTK_BOX(botoesBox),
-                       botaoRemoverPessoa,
-                       TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(botoesBox), botaoRemoverPessoa, TRUE, TRUE, 0);
 
-    g_signal_connect(botaoAdicionarPessoa,
-                     "clicked",
-                     G_CALLBACK(onClickAdcionarPessoa),
-                     NULL);
+    g_signal_connect(botaoAdicionarPessoa, "clicked", G_CALLBACK(onClickAdicionarPessoa), NULL);
 
-    g_signal_connect(botaoEditarPessoa,
-                     "clicked",
-                     G_CALLBACK(onClickEditarPessoa),
-                     NULL);
+    g_signal_connect(botaoEditarPessoa, "clicked", G_CALLBACK(onClickEditarPessoa), NULL);
 
-    g_signal_connect(botaoRemoverPessoa,
-                     "clicked",
-                     G_CALLBACK(onClickRemoverPessoa),
-                     NULL);
+    g_signal_connect(botaoRemoverPessoa, "clicked", G_CALLBACK(onClickRemoverPessoa), NULL);
 }
 
 void criarCampos(GtkWidget *container) {
@@ -89,9 +68,7 @@ void criarCampos(GtkWidget *container) {
     GtkWidget *frame =
         gtk_frame_new("Dados da Pessoa");
 
-    gtk_box_pack_start(GTK_BOX(container),
-                       frame,
-                       FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(container), frame, FALSE, FALSE, 10);
 
     GtkWidget *grid = gtk_grid_new();
 
@@ -129,9 +106,9 @@ void criarLista(GtkWidget *container) {
 }
 
 //Função que irá executar após o click
-void onClickAdcionarPessoa(GtkWidget *widget, gpointer data){
-    const char *nome = gtk_editable_get_text(GTK_EDITABLE(entryNome));
-    const char *idadeStr = gtk_editable_get_text(GTK_EDITABLE(entryIdade));
+void onClickAdicionarPessoa(GtkWidget *widget, gpointer data){
+    const char *nome = gtk_entry_get_text(GTK_ENTRY(entryNome));
+    const char *idadeStr = gtk_entry_get_text(GTK_ENTRY(entryIdade));
 
     if(strlen(nome) == 0){
         return;
@@ -151,8 +128,8 @@ void onClickEditarPessoa(GtkWidget *widget, gpointer data){
 
     int indice = gtk_list_box_row_get_index(row);
 
-    const char *nome = gtk_editable_get_text(GTK_EDITABLE(entryNome));
-    const char *idadeStr = gtk_editable_get_text(GTK_EDITABLE(entryIdade));
+    const char *nome = gtk_entry_get_text(GTK_ENTRY(entryNome));
+    const char *idadeStr = gtk_entry_get_text(GTK_ENTRY(entryIdade));
 
     editarPessoa(indice, nome, atoi(idadeStr));
 
@@ -180,25 +157,18 @@ void ativar(GtkApplication *app, gpointer data) {
     GtkWidget *janela =
         gtk_application_window_new(app);
 
-    gtk_window_set_title(GTK_WINDOW(janela),
-                         "Sistema de Cadastro");
+    gtk_window_set_title(GTK_WINDOW(janela), "Sistema de Cadastro");
 
-    gtk_window_set_default_size(GTK_WINDOW(janela),
-                                RESOLUCTION_X,
-                                RESOLUCTION_Y);
+    gtk_window_set_default_size(GTK_WINDOW(janela),RESOLUCTION_X, RESOLUCTION_Y);
 
-    GtkWidget *boxPrincipal =
-        gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    GtkWidget *boxPrincipal = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 
-    gtk_container_add(GTK_CONTAINER(janela),
-                      boxPrincipal);
+    gtk_container_add(GTK_CONTAINER(janela), boxPrincipal);
 
     GtkWidget *labelTitulo =
         gtk_label_new("Cadastro de Pessoas");
 
-    gtk_box_pack_start(GTK_BOX(boxPrincipal),
-                       labelTitulo,
-                       FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(boxPrincipal), labelTitulo, FALSE, FALSE, 5);
 
     criarCampos(boxPrincipal);
     criarBotoes(boxPrincipal);

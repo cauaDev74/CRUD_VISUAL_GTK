@@ -7,7 +7,7 @@ typedef struct {
 } Pessoa;
 
 extern Pessoa pessoas[100];
-extern int total = 0;
+extern int total;
 
 void adicionarPessoa(const char *nome, int idade);
 void editarPessoa(int indice, const char *nome, int idade);
