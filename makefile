@@ -19,6 +19,12 @@ GTK_CFLAGS = `pkg-config --cflags gtk+-3.0`
 GTK_LIBS   = `pkg-config --libs gtk+-3.0`
 
 # =====================================================
+#               SQLITE CONFIG
+# =====================================================
+
+SQLITE_FLAGS = -lsqlite3
+
+# =====================================================
 #               FLAGS DE COMPILAÇÃO
 # =====================================================
 
@@ -54,7 +60,7 @@ release: $(EXEC)
 
 $(EXEC): $(OBJ)
 	@mkdir -p $(BIN_DIR)
-	$(CC) $(OBJ) -o $(EXEC) $(GTK_LIBS)
+	$(CC) $(OBJ) -o $(EXEC) $(GTK_LIBS) $(SQLITE_FLAGS)
 	@echo "Build concluído -> $(EXEC)"
 
 # =====================================================

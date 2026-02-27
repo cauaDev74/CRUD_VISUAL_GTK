@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <sqlite3.h>
 #include "model.h"
 #include "view.h"
 
@@ -14,7 +15,7 @@ GtkWidget *botaoEditarPessoa; //Botão para editar pessoa
 GtkWidget *botaoRemoverPessoa; //Botão para remover pessoa
 
 void atualizarLista() {
-    // 1️⃣ Remover todos os filhos da lista
+
     GList *children, *iter;
 
     children = gtk_container_get_children(GTK_CONTAINER(listaPessoas));
@@ -25,15 +26,35 @@ void atualizarLista() {
 
     g_list_free(children);
 
-    // 2️⃣ Recriar a lista baseada no array
-    for (int i = 0; i < total; i++) {
+    const char *sql = "SELECT id, nome, idade FROM pessoas;";
+
+    sqlite3_stmt *stmt;
+
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Erro SELECT: %s\n", sqlite3_errmsg(db));
+        return;
+    }
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+
+        int id = sqlite3_column_int(stmt, 0);
+        const unsigned char *nome = sqlite3_column_text(stmt, 1);
+        int idade = sqlite3_column_int(stmt, 2);
+
         char texto[100];
-        sprintf(texto, "%s - %d anos", pessoas[i].nome, pessoas[i].idade);
+
+        snprintf(texto, sizeof(texto),
+                 "%d - %s - %d anos",
+                 id, nome, idade);
 
         GtkWidget *label = gtk_label_new(texto);
 
         gtk_list_box_insert(GTK_LIST_BOX(listaPessoas), label, -1);
     }
+
+    sqlite3_finalize(stmt);
 
     gtk_widget_show_all(listaPessoas);
 }
@@ -174,6 +195,8 @@ void ativar(GtkApplication *app, gpointer data) {
     criarBotoes(boxPrincipal);
     criarLista(boxPrincipal);
 
+    atualizarLista();
+    
     gtk_widget_show_all(janela);
 }
 
